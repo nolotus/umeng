@@ -31,6 +31,7 @@ html,body{
   position: absolute;
   top: 0;
   left: 0;
+    z-index: 1;
 }
 #app>main{
   height: 100%;
