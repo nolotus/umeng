@@ -1,10 +1,11 @@
 <script>
     import Header from './components/Header.vue'
-
+    import MyMenu from "@/components/MyMenu.vue"
     export default {
         name: 'app',
         components: {
-            Header
+            Header,
+            MyMenu
         }
     }
 </script>
@@ -59,20 +60,9 @@ html,body{
           <My-menu></My-menu>
         </aside>
         <article>
-
+            <router-view></router-view>
         </article>
       </main>
   </div>
 </template>
 <script>
-import MyMenu from "@/components/MyMenu.vue"
-export default {
-  name: 'HelloWorld',
-  components:{
-    MyMenu
-  },
-  props: {
-    msg: String
-  }
-}
-</script>
