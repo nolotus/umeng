@@ -5,7 +5,7 @@
         name: 'app',
         components: {
             Header,
-            MyMenu
+            MyMenu,
         }
     }
 </script>
@@ -65,4 +65,3 @@ html,body{
       </main>
   </div>
 </template>
-<script>
