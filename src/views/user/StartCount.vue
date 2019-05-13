@@ -1,12 +1,12 @@
 <template>
   <div>
-      整体趋势
+      启动次数
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OverallTrend',
+  name: 'StartCount',
   props: {
     msg: String
   }

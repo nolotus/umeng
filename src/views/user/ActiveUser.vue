@@ -1,12 +1,12 @@
 <template>
   <div>
-      整体趋势
+      活跃用户
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OverallTrend',
+  name: 'ActiveUser',
   props: {
     msg: String
   }

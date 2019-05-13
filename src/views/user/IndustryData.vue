@@ -1,12 +1,12 @@
 <template>
   <div>
-      整体趋势
+      行业数据
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OverallTrend',
+  name: 'IndustryData',
   props: {
     msg: String
   }

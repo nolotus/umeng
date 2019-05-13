@@ -1,12 +1,12 @@
 <template>
   <div>
-      整体趋势
+      版本分布
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OverallTrend',
+  name: 'Version',
   props: {
     msg: String
   }

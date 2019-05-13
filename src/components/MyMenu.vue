@@ -52,13 +52,19 @@ export default {
                         {
                             title:"实时统计",
                             icon:"ios-paper",
-                            path:"/realtimestatistics",
+                            path:{
+                                path:"/realtimestatistics",
+                                name:"realtimestatistics",
+                            },
                             list:[]
                         },
                         {
                             title:"整体趋势",
                             icon:"ios-paper",
-                            path:"/overalltrend",
+                            path:{
+                                path:"/overalltrend",
+                                name:"overalltrend",
+                            },
                             list:[]
                         }
                     ]
@@ -71,31 +77,56 @@ export default {
                         {
                             title:"新增用户",
                             icon:"ios-paper",
-                            path:"",
+                            path:{
+                                // path:"/adduser",
+                                name:"user",
+                                params:{
+                                    type:"add"
+                                }
+                            },
                             list:[]
                         },
                         {
                             title:"活跃用户",
                             icon:"ios-paper",
-                            path:"",
+                            path:{
+                                // path:"/activeuser",
+                                name:"user",
+                                params:{
+                                    type:"active"
+                                }
+                            },
                             list:[]
                         },
                         {
                             title:"启动次数",
                             icon:"ios-paper",
-                            path:"",
+                            path:{
+                                // path:"/startcount",
+                                name:"user",
+                                params:{
+                                    type:"startcount"
+                                },
+                            },
+                           
                             list:[]
                         },
                         {
                             title:"版本分布",
                             icon:"ios-paper",
-                            path:"",
+                            path:{
+                                // path:"/version",
+                                name:"user",
+                                params:{
+                                    type:"version"
+                                },
+                            },
                             list:[]
                         },
                         {
                             title:"行业数据",
                             icon:"ios-paper",
-                            path:"",
+                            path:"/industrydata",
                             list:[]
                         }
                     ]
