@@ -69,6 +69,68 @@ export default {
                             icon:"ios-paper",
                             path:"",
                             list:[]
+                        },
+                        {
+                            title:"启动次数",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        },
+                        {
+                            title:"版本分布",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        },
+                        {
+                            title:"行业数据",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        }
+                    ]
+                },
+                {
+                    title:"留存分析",
+                    icon:"ios-paper",
+                    path:"",
+                    list:[
+                        {
+                            title:"留存用户",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        },
+                        {
+                            title:"用户新鲜度",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        },
+                        {
+                            title:"用户活跃度",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        }
+                    ]
+                },
+                {
+                    title:"渠道分析",
+                    icon:"ios-paper",
+                    path:"",
+                    list:[
+                        {
+                            title:"时段详情",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
+                        },
+                        {
+                            title:"渠道列表",
+                            icon:"ios-paper",
+                            path:"",
+                            list:[]
                         }
                     ]
                 }
