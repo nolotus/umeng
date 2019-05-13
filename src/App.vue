@@ -36,7 +36,7 @@ html,body{
 #app>main>article{
   height: 100%;
   overflow: hidden;
-    background-color:#ccc;
+  background-color:#ccc;
 }
 </style>
 <template>
@@ -45,10 +45,24 @@ html,body{
 
       </header>
       <main>
-        <aside></aside>
-        <article></article>
+        <aside>
+          <My-menu></My-menu>
+        </aside>
+        <article>
+
+        </article>
       </main>
   </div>
 </template>
-
-
+<script>
+import MyMenu from "@/components/MyMenu.vue"
+export default {
+  name: 'HelloWorld',
+  components:{
+    MyMenu
+  },
+  props: {
+    msg: String
+  }
+}
+</script>
