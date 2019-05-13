@@ -4,6 +4,10 @@
         width: 100%;
         height: 100%;
     }
+    .router_link{
+        width: 100%;
+        height: 100%;
+    }
 </style>
 <template>
     <div class="menu">
@@ -14,11 +18,17 @@
                         <Icon :type="item.icon" />
                         {{item.title}}    
                     </template>
-                    <MenuItem  v-for="(ob,i) in item.list" :name="index + '-' + i" :key="i">{{ob.title}}</MenuItem>
+                    <MenuItem  v-for="(ob,i) in item.list" :key="i" :name="index + '-' + i" >
+                        <router-link  :to="ob.path" tag="div" class="router_link">
+                        {{ob.title}}
+                        </router-link>  
+                    </MenuItem> 
                 </Submenu>
-                <MenuItem :name="index+ ''" :key="index" v-else>
+                <MenuItem :name="index+ ''" :key="index"  v-else >
                     <Icon :type="item.icon" />
-                    {{item.title}}
+                        <router-link :to="item.path"  tag="div" class="router_link">
+                            {{item.title}}
+                        </router-link>
                 </MenuItem>
             </template>      
         </Menu>
@@ -27,7 +37,7 @@
 
 <script>
 export default {
-  name: 'menu',
+  name: 'MyMenu',
   props: {
     msg: String
   },
@@ -42,13 +52,13 @@ export default {
                         {
                             title:"实时统计",
                             icon:"ios-paper",
-                            path:"",
+                            path:"/realtimestatistics",
                             list:[]
                         },
                         {
                             title:"整体趋势",
                             icon:"ios-paper",
-                            path:"",
+                            path:"/overalltrend",
                             list:[]
                         }
                     ]
