@@ -131,6 +131,25 @@ export default {
                         }
                     ]
                 },
+               {
+                   title:"渠道分析",
+                   icon:"ios-paper",
+                   path:"",
+                   list:[
+                       {
+                           title:"时段详情",
+                           icon:"ios-paper",
+                           path:"",
+                           list:[]
+                       },
+                       {
+                           title:"渠道列表",
+                           icon:"ios-paper",
+                           path:"",
+                           list:[]
+                       }
+                   ]
+               },
                 {
                     title:"留存分析",
                     icon:"ios-paper",
@@ -150,25 +169,6 @@ export default {
                         },
                         {
                             title:"用户活跃度",
-                            icon:"ios-paper",
-                            path:"",
-                            list:[]
-                        }
-                    ]
-                },
-                {
-                    title:"渠道分析",
-                    icon:"ios-paper",
-                    path:"",
-                    list:[
-                        {
-                            title:"时段详情",
-                            icon:"ios-paper",
-                            path:"",
-                            list:[]
-                        },
-                        {
-                            title:"渠道列表",
                             icon:"ios-paper",
                             path:"",
                             list:[]

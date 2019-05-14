@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="overflow: auto;height: 100%">
         <div style="background:#eee;padding:16px 32px">
             <Card :bordered="false">
                 <p slot="title">
@@ -23,6 +23,24 @@
 
 
                 </Tabs>
+            </Card>
+        </div>
+        <div style="background:#eee;padding:16px 32px">
+            <Card :bordered="false">
+                <p slot="title">
+                    自定义指标
+                    <Icon type="ios-film-outline"></Icon>
+
+                </p>
+                <a href="#" slot="extra" @click.prevent="changeLimit">
+                    <Icon type="ios-loop-strong"></Icon>
+                    编辑指标
+                </a>
+                <div> 编辑指标
+                    <Icon type="ios-add" size="50"> </Icon>
+
+                </div>
+
             </Card>
         </div>
     </div>
@@ -54,9 +72,7 @@
                   }
               },
               legend: {
-                  layout: 'vertical',
-                  align: 'right',
-                  verticalAlign: 'middle'
+                  layout: 'horizontal',
               },
 
               plotOptions: {
