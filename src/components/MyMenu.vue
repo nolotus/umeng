@@ -158,19 +158,26 @@ export default {
                         {
                             title:"留存用户",
                             icon:"ios-paper",
-                            path:"",
+                            path:"/retention",
+                            list:[]
+                        },
+                        {
+                            title:"用户跟踪",
+                            icon:"ios-paper",
+                            path:"/retentionTrace",
                             list:[]
                         },
                         {
                             title:"用户新鲜度",
                             icon:"ios-paper",
-                            path:"",
+                            path:"/freshness",
+
                             list:[]
                         },
                         {
                             title:"用户活跃度",
                             icon:"ios-paper",
-                            path:"",
+                            path:"/engagement",
                             list:[]
                         }
                     ]
