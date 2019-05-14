@@ -1,6 +1,6 @@
 <template>
   <div>
-      行业数据
+     行业数据
   </div>
 </template>
 
@@ -9,7 +9,10 @@ export default {
   name: 'IndustryData',
   props: {
     msg: String
-  }
+  },
+  mounted() {
+      console.log("行业数据")
+  },
 }
 </script>
 

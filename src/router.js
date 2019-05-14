@@ -13,7 +13,7 @@ import engagement from "./views/retention/engagement.vue";//实时统计
 // import ActiveUser from "./views/user/ActiveUser.vue"; //活跃用户
 // import StartCount from "./views/user/StartCount.vue"; //启动次数
 // import Version from "./views/user/Version.vue"; //版本分布
-// import IndustryData from "./views/user/IndustryData.vue"; //版本分布
+import IndustryData from "./views/user/IndustryData.vue"; //行业数据
 
 Vue.use(Router)
 
@@ -81,11 +81,11 @@ export default new Router({
         //   name: 'version',
         //   component: Version
         // },
-        // {
-        //   path: '/industrydata',
-        //   name: 'industrydata',
-        //   component: IndustryData
-        // },
+        {
+          path: '/industrydata',
+          name: 'industrydata',
+          component: IndustryData
+        },
         {
             path: '/about',
             name: 'about',
