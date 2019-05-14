@@ -1,7 +1,7 @@
 <style scoped>
 .user_header{
   padding: 16px 24px;
-  background: rgb(249, 249, 249);
+  background: rgb(249,249,249);
 }
 .user_header >  p{
   color: rgb(51, 51, 51);
@@ -60,8 +60,8 @@ export default {
 
   },
   methods:{
-    routeChange(cur,next){
-      // console.log(cur,next);
+    routeChange(cur){
+      // console.log(cur);
     },
     getFormData(){
         return this.form;
