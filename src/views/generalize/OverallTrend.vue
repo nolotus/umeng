@@ -141,7 +141,7 @@
                         <Radio label="活跃用户"></Radio>
                         <Radio label="累计用户"></Radio>
                     </RadioGroup>
-                    <Highcharts :options="bar" />
+                    <Highcharts :options="barOption2" />
 
 
                 </Card>
@@ -157,12 +157,12 @@
                         <Icon type="ios-loop-strong"></Icon>
                         编辑指标
                     </a>
-                    <RadioGroup v-model="button1" type="button">
+                    <RadioGroup v-model="button2" type="button">
                         <Radio label="新增用户"></Radio>
                         <Radio label="活跃用户"></Radio>
                         <Radio label="累计用户"></Radio>
                     </RadioGroup>
-                    <Highcharts :options="bar" />
+                    <Highcharts :options="barOption" />
 
 
                 </Card>
@@ -172,10 +172,34 @@
 </template>
 
 <script>
+    import api from '../../axios/api'
+
     export default {
+        mounted () {
+            api.mockdata('/data/index3')
+                .then(res => {
+                    console.log('原始数据',res);
+                    res.array.map((item) => {
+                        console.log(item)
+
+                    })
+
+                    this.versionData = res
+
+                    console.log(this.versionData)
+                    //原始版本数据
+
+                })
+        },
         data () {
+
+            //数据流程走向，获取原始数据，然后根据选项卡，进行过滤，然后灌注在图表上
             return {
-                button1: '北京',
+                versionData:[],
+                button1: '新增用户',
+                barTitle:'1',
+                button2: '新增用户',
+
                 options:{
 
 
@@ -270,291 +294,216 @@
                 },
                 bar:{
                     chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
                         type: 'pie'
                     },
                     title: {
-                        text: 'Browser market shares. January, 2018'
+                        text: ''
                     },
-                    subtitle: {
-                        text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },
                     plotOptions: {
-                        series: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
                             dataLabels: {
                                 enabled: true,
-                                format: '{point.name}: {point.y:.1f}%'
-                            }
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+
+                            },
+                            showInLegend: true
                         }
                     },
+                    series: [{
+                        name: 'Brands',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Chrome',
+                            y: 61.41,
+                            sliced: true,
+                            selected: true
+                        }, {
+                            name: 'Internet Explorer',
+                            y: 11.84
+                        }, {
+                            name: 'Firefox',
+                            y: 10.85
+                        }, {
+                            name: 'Edge',
+                            y: 4.67
+                        }, {
+                            name: 'Safari',
+                            y: 4.18
+                        }, {
+                            name: 'Sogou Explorer',
+                            y: 1.64
+                        }, {
+                            name: 'Opera',
+                            y: 1.6
+                        }, {
+                            name: 'QQ',
+                            y: 1.2
+                        }, {
+                            name: 'Other',
+                            y: 2.61
+                        }]
+                    }]
+                },
+                barData:[{
+                    name: 'Chrome',
+                    y: 61.41,
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Internet Explorer',
+                    y: 11.84
+                }, {
+                    name: 'Firefox',
+                    y: 10.85
+                }, {
+                    name: 'Edge',
+                    y: 4.67
+                }, {
+                    name: 'Safari',
+                    y: 4.18
+                }, {
+                    name: 'Sogou Explorer',
+                    y: 1.64
+                }, {
+                    name: 'Opera',
+                    y: 1.6
+                }, {
+                    name: 'QQ',
+                    y: 1.2
+                }, {
+                    name: 'Other',
+                    y: 2.61
+                }]
+            }
+        },
 
+        methods: {
+
+        },
+        watch: {
+            // 如果 `question` 发生改变，这个函数就会运行
+            button1: function (newValue,oldValue) {
+                console.log(oldValue,newValue)
+
+                switch(newValue)
+                {
+
+                    case '新增用户':
+                        this.barData = [{
+                            name: 'Chz',
+                            y: 6111.41,
+                        }, {
+                            name: 'Internet Explorer',
+                            y: 11.84
+                        }, {
+                            name: 'Firefox',
+                            y: 10.85
+                        }, {
+                            name: 'Edge',
+                            y: 4.67
+                        }, {
+                            name: 'Safari',
+                            y: 4.18
+                        }, {
+                            name: 'Sogou Explorer',
+                            y: 1.64
+                        }, {
+                            name: 'Opera',
+                            y: 1.6
+                        }, {
+                            name: 'QQ',
+                            y: 1.2
+                        }, {
+                            name: 'Other',
+                            y: 2.61
+                        }]
+                        break;
+                    case '活跃用户':
+                        this.barData = [{
+                            name: 'Ch',
+                            y: 6111.41,
+                        }, {
+                            name: 'Internet Explorer',
+                            y: 11.84
+                        }, {
+                            name: 'Firefox',
+                            y: 10.85
+                        }, {
+                            name: 'Edge',
+                            y: 4.67
+                        }, {
+                            name: 'Safari',
+                            y: 4.18
+                        }, {
+                            name: 'Sogou Explorer',
+                            y: 1.64
+                        }, {
+                            name: 'Opera',
+                            y: 1.6
+                        }, {
+                            name: 'QQ',
+                            y: 1.2
+                        }, {
+                            name: 'Other',
+                            y: 2.61
+                        }]
+                        break;
+                    case '累计用户':
+
+                        this.barData = this.versionData.map((item) => {
+                         console.log(item)
+
+                        })
+                        break;
+                    default:
+
+                }
+            },
+        },
+        computed: {
+
+            barOption: function () {
+                return this.bar
+            },
+            barOption2: function () {
+                return {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: this.barTitle
+                    },
                     tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
 
-                    series: [
-                        {
-                            name: "Browsers",
-                            colorByPoint: true,
-                            data: [
-                                {
-                                    name: "Chrome",
-                                    y: 62.74,
-                                    drilldown: "Chrome"
-                                },
-                                {
-                                    name: "Firefox",
-                                    y: 10.57,
-                                    drilldown: "Firefox"
-                                },
-                                {
-                                    name: "Internet Explorer",
-                                    y: 7.23,
-                                    drilldown: "Internet Explorer"
-                                },
-                                {
-                                    name: "Safari",
-                                    y: 5.58,
-                                    drilldown: "Safari"
-                                },
-                                {
-                                    name: "Edge",
-                                    y: 4.02,
-                                    drilldown: "Edge"
-                                },
-                                {
-                                    name: "Opera",
-                                    y: 1.92,
-                                    drilldown: "Opera"
-                                },
-                                {
-                                    name: "Other",
-                                    y: 7.62,
-                                    drilldown: null
-                                }
-                            ]
+                            },
+                            showInLegend: true
                         }
-                    ],
-                    drilldown: {
-                        series: [
-                            {
-                                name: "Chrome",
-                                id: "Chrome",
-                                data: [
-                                    [
-                                        "v65.0",
-                                        0.1
-                                    ],
-                                    [
-                                        "v64.0",
-                                        1.3
-                                    ],
-                                    [
-                                        "v63.0",
-                                        53.02
-                                    ],
-                                    [
-                                        "v62.0",
-                                        1.4
-                                    ],
-                                    [
-                                        "v61.0",
-                                        0.88
-                                    ],
-                                    [
-                                        "v60.0",
-                                        0.56
-                                    ],
-                                    [
-                                        "v59.0",
-                                        0.45
-                                    ],
-                                    [
-                                        "v58.0",
-                                        0.49
-                                    ],
-                                    [
-                                        "v57.0",
-                                        0.32
-                                    ],
-                                    [
-                                        "v56.0",
-                                        0.29
-                                    ],
-                                    [
-                                        "v55.0",
-                                        0.79
-                                    ],
-                                    [
-                                        "v54.0",
-                                        0.18
-                                    ],
-                                    [
-                                        "v51.0",
-                                        0.13
-                                    ],
-                                    [
-                                        "v49.0",
-                                        2.16
-                                    ],
-                                    [
-                                        "v48.0",
-                                        0.13
-                                    ],
-                                    [
-                                        "v47.0",
-                                        0.11
-                                    ],
-                                    [
-                                        "v43.0",
-                                        0.17
-                                    ],
-                                    [
-                                        "v29.0",
-                                        0.26
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Firefox",
-                                id: "Firefox",
-                                data: [
-                                    [
-                                        "v58.0",
-                                        1.02
-                                    ],
-                                    [
-                                        "v57.0",
-                                        7.36
-                                    ],
-                                    [
-                                        "v56.0",
-                                        0.35
-                                    ],
-                                    [
-                                        "v55.0",
-                                        0.11
-                                    ],
-                                    [
-                                        "v54.0",
-                                        0.1
-                                    ],
-                                    [
-                                        "v52.0",
-                                        0.95
-                                    ],
-                                    [
-                                        "v51.0",
-                                        0.15
-                                    ],
-                                    [
-                                        "v50.0",
-                                        0.1
-                                    ],
-                                    [
-                                        "v48.0",
-                                        0.31
-                                    ],
-                                    [
-                                        "v47.0",
-                                        0.12
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Internet Explorer",
-                                id: "Internet Explorer",
-                                data: [
-                                    [
-                                        "v11.0",
-                                        6.2
-                                    ],
-                                    [
-                                        "v10.0",
-                                        0.29
-                                    ],
-                                    [
-                                        "v9.0",
-                                        0.27
-                                    ],
-                                    [
-                                        "v8.0",
-                                        0.47
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Safari",
-                                id: "Safari",
-                                data: [
-                                    [
-                                        "v11.0",
-                                        3.39
-                                    ],
-                                    [
-                                        "v10.1",
-                                        0.96
-                                    ],
-                                    [
-                                        "v10.0",
-                                        0.36
-                                    ],
-                                    [
-                                        "v9.1",
-                                        0.54
-                                    ],
-                                    [
-                                        "v9.0",
-                                        0.13
-                                    ],
-                                    [
-                                        "v5.1",
-                                        0.2
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Edge",
-                                id: "Edge",
-                                data: [
-                                    [
-                                        "v16",
-                                        2.6
-                                    ],
-                                    [
-                                        "v15",
-                                        0.92
-                                    ],
-                                    [
-                                        "v14",
-                                        0.4
-                                    ],
-                                    [
-                                        "v13",
-                                        0.1
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Opera",
-                                id: "Opera",
-                                data: [
-                                    [
-                                        "v50.0",
-                                        0.96
-                                    ],
-                                    [
-                                        "v49.0",
-                                        0.82
-                                    ],
-                                    [
-                                        "v12.1",
-                                        0.14
-                                    ]
-                                ]
-                            }
-                        ]
-                    }
+                    },
+                    series: [{
+                        name: 'Brands',
+                        colorByPoint: true,
+                        data: this.barData
+                    }]
                 }
             }
         },

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Mock from "./components/mock.vue";//实时统计
+
 import RealTimeStatistics from "./views/generalize/RealTimeStatistics.vue";//实时统计
 import OverallTrend from "./views/generalize/OverallTrend.vue"; //整体趋势
 import AddUser from "./views/user/AddUser.vue"; //新增用户
@@ -23,6 +25,11 @@ export default new Router({
         //   name: 'home',
         //   component: Home
         // },
+        {
+            path: '/mock',
+            name: 'mock',
+            component: Mock
+        },
         {
             path: '/realtimestatistics',
             name: 'realtimestatistics',
