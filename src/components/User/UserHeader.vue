@@ -12,14 +12,15 @@
 <template>
     <header class="user_header">
           <p>{{currenPage}}</p>
-          <DatePicker type="datetimerange" format="yyyy-MM-dd" style="width: 208px;border-radius: 0;"></DatePicker>
-          <Select v-model="form.channel" style="width:200px;margin-left:10px;" v-if="$route.params.type != 'version'">
+          <DatePicker :value="form.daterange" format="yyyy-MM-dd" type="daterange" style="margin-right:10px;"  v-if="showWidget.datePicker"></DatePicker>
+          <DatePicker :value="form.date" format="yyyy-MM-dd" type="date"  style="margin-right:10px;" v-if="showWidget.date"></DatePicker>
+          <Select v-model="form.channel" style="width:200px;margin-right:10px;" v-if="showWidget.selectChannel">
               <Option value="0">全部渠道</Option>  
               <Option v-for="item in channelList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <Select v-model="form.vaersion" style="width:200px;margin-left:10px;">
+          <Select v-model="form.version" style="width:200px;margin-right:10px;" v-if="showWidget.selectVersion">
               <Option value="0">全部版本</Option>  
-              <Option v-for="item in vaersionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <Option v-for="item in versionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
     </header>
 </template>
@@ -28,18 +29,26 @@
 export default {
   name: 'UserHeader',
   props: {
-    currenPage:String,
-
+    currenPage:String, //title
+    showWidget:Object, //控制显示的form组件
+    // showWidget:{
+    //     date:true,
+    //     datePicker:true,
+    //     selectChannel:true,
+    //     selectVersion:true,
+    //   },
   },
   data(){
     return{
+      
       form:{
-        data:"2019-05-06 - 2019-05-13",
+        daterange:['2019-05-06', '2019-05-13'],
+        date: '2019-05-14',
         channel:"0",
-        vaersion:"0"
+        version:"0",
       },
       channelList:[{value:"1",label:"App store"}],
-      vaersionList:[
+      versionList:[
         {value:"1",label:"2.0.1"},
         {value:"2",label:"1.15.5"},
         {value:"3",label:"2.0.0"},
@@ -50,19 +59,11 @@ export default {
       ],
     }
   },
-  watch:{
-    "$route":"routeChange"
-  },
-  created(){
-      
+  created(){  
   },
   mounted(){
-
   },
   methods:{
-    routeChange(cur){
-      // console.log(cur);
-    },
     getFormData(){
         return this.form;
     }

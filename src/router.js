@@ -9,11 +9,8 @@ import retention from "./views/retention/retention.vue";
 import retentionTrace from "./views/retention/retention_trace.vue";//实时统计
 import freshness from "./views/retention/freshness.vue";//实时统计
 import engagement from "./views/retention/engagement.vue";//实时统计
-
-// import ActiveUser from "./views/user/ActiveUser.vue"; //活跃用户
-// import StartCount from "./views/user/StartCount.vue"; //启动次数
-// import Version from "./views/user/Version.vue"; //版本分布
 import IndustryData from "./views/user/IndustryData.vue"; //行业数据
+import Channel from "./views/channel/Channel.vue"; //行业数据
 
 Vue.use(Router)
 
@@ -66,21 +63,11 @@ export default new Router({
             name: 'user',
             component: AddUser
         },
-        // {
-        //   path: '/activeuser/:type',
-        //   name: 'activeuser',
-        //   component: ActiveUser
-        // },
-        // {
-        //   path: '/startcount/:type',
-        //   name: 'startcount',
-        //   component: StartCount
-        // },
-        // {
-        //   path: '/version/:type',
-        //   name: 'version',
-        //   component: Version
-        // },
+        {
+            path:"/channel/:type",
+            name:"channel",
+            component:Channel
+        },
         {
           path: '/industrydata',
           name: 'industrydata',

@@ -139,7 +139,7 @@ export default {
     },
   },
   mounted() {
-      console.log("行业数据")
+      // console.log("行业数据")
       
   },
 }

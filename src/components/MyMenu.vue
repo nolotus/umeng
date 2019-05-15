@@ -139,13 +139,23 @@ export default {
                        {
                            title:"时段详情",
                            icon:"ios-paper",
-                           path:"",
+                            path:{
+                                name:"channel",
+                                params:{
+                                    type:"timeframe"
+                                },
+                            },
                            list:[]
                        },
                        {
                            title:"渠道列表",
                            icon:"ios-paper",
-                           path:"",
+                           path:{
+                                name:"channel",
+                                params:{
+                                    type:"channellist"
+                                },
+                           },
                            list:[]
                        }
                    ]
