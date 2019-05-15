@@ -61,6 +61,5 @@ for(let i = 0; i < 10; i ++) { // 可自定义生成的个数
 Mock.mock('/data/index', 'post', data)
 Mock.mock('/data/index2', 'post', data2)
 Mock.mock('/data/index3', 'post', data3)
-Mock.mock('/data/bar1', 'post', bar1)
 
 
