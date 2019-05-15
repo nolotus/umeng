@@ -21,7 +21,9 @@ var options = {
     },
     labels: {
       formatter: function() {
-        return (this.value || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+        return (this.value || 0)
+          .toString()
+          .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
       }
     }
   },
@@ -31,22 +33,43 @@ var options = {
     // align: 'right',
     // verticalAlign: 'middle'
   },
+  xAxis: {
+    categories: [
+      "2019-05-08",
+      "2019-05-09",
+      "2019-05-10",
+      "2019-05-11",
+      "2019-05-12",
+      "2019-05-13",
+      "2019-05-14"
+    ]
+  },
   plotOptions: {
     series: {
-      label: {
-        connectorAllowed: false
-      },
-      pointStart: 2010
+      lineWidth: 1.5, //折线宽度
+      //  enableMouseTracking: false,
+      marker: {
+        // enabled: false
+        symbol: "circle"
+      }
     }
   },
   credits: {
     enabled: false //去掉水印
   },
+  tooltip: {
+    crosshairs: {
+      width: 1,
+      color: "#ccc"
+    }
+  },
   series: [
     {
       name: "新增用户",
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    },
+      color: "#2196F3", //颜色
+      // lineWidth: 2,//折线宽度
+      data: [113, 108, 79, 87, 41, 99, 95] //数据
+    }
     // {
     //   name: "工人",
     //   data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]

@@ -22,8 +22,8 @@
       </Button>
     </div>
     <div v-show="isShowTopTable">
-      <Table :columns="columns1" :data="topTableData"></Table>
-      <div style="margin-top:10px;text-align: right;">
+      <Table :columns="columns" :data="data"></Table>
+      <div style="margin-top:10px;text-align: right;" v-if="!banpaging">
         <Page :total="7" show-sizer/>
       </div>
     </div>
@@ -34,37 +34,30 @@
 export default {
   name: "Milestone",
   props: {
-    isAddMilestone: Boolean
+    isAddMilestone: Boolean,
+    banpaging:Boolean,//不使用分页组件
+    columns:Array,
+    data:Array,
+  },
+  watch:{
+    columns(val){
+        // console.log(val)
+    },
+    data(val){
+      //  console.log(val)
+    },
+    banpaging(val){
+      // console.log(val)
+    },
   },
   data() {
     return {
       isShowTopTable: false, //上面表格是否显示
-      columns1: [
-        { title: "日期", key: "date" },
-        {
-          title: "新增用户（占比）",
-          key: "action",
-          align: "right",
-          render: (h, params) => {
-            return h(
-              "div",
-              params.row.addcount + "（" + params.row.proportion + "）"
-            );
-          }
-        }
-      ],
-      topTableData: [
-        { date: "2019-05-14", addcount: 48, proportion: "2.94%" },
-        { date: "2019-05-15", addcount: 99, proportion: "3.94%" },
-        { date: "2019-05-16", addcount: 41, proportion: "4.94%" },
-        { date: "2019-05-17", addcount: 87, proportion: "5.94%" },
-        { date: "2019-05-18", addcount: 79, proportion: "6.94%" },
-        { date: "2019-05-19", addcount: 108, proportion: "7.94%" },
-        { date: "2019-05-20", addcount: 113, proportion: "8.94%" }
-      ]
     };
   },
-  created() {},
+  created() {
+    console.log(this.banpaging)
+  },
   mounted() {},
   methods: {}
 };
