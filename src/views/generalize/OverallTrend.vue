@@ -136,12 +136,12 @@
                         <Icon type="ios-loop-strong"></Icon>
                         编辑指标
                     </a>
-                    <RadioGroup v-model="button1" type="button">
+                    <RadioGroup v-model="barChoose1" type="button">
                         <Radio label="新增用户"></Radio>
                         <Radio label="活跃用户"></Radio>
                         <Radio label="累计用户"></Radio>
                     </RadioGroup>
-                    <Highcharts :options="barOption2" />
+                    <Highcharts :options="barOption1" />
 
 
                 </Card>
@@ -157,12 +157,12 @@
                         <Icon type="ios-loop-strong"></Icon>
                         编辑指标
                     </a>
-                    <RadioGroup v-model="button2" type="button">
+                    <RadioGroup v-model="barChoose2" type="button">
                         <Radio label="新增用户"></Radio>
                         <Radio label="活跃用户"></Radio>
                         <Radio label="累计用户"></Radio>
                     </RadioGroup>
-                    <Highcharts :options="barOption" />
+                    <Highcharts :options="barOption2" />
 
 
                 </Card>
@@ -180,36 +180,23 @@
                 .then(res => {
                     console.log('原始数据',res);
 
-                    let originData = res.array[0].array
-console.log(originData)
-                    this.versionData1 =   originData.map(
-                        (item) => {
-                        return {
-                            name:item.version,
-                            y:item.active,
-                        }
+                   this.versionData = res.array[0].array
+                    this.barData = this.versionData.map(
+                        (item) => {1
+                            return {
+                                name:item.version,
+                                y:item.new,
+                            }
 
-                    })
-                    this.barData =this.versionData1
-                    console.log('版本数据1',this.versionData1);
+                        })
+                    this.barData2 = this.versionData.map(
+                        (item) => {1
+                            return {
+                                name:item.channels,
+                                y:item.new,
+                            }
 
-                    this.versionData2 =   originData.map((item) => {
-                        return {
-                            name:item.version,
-                            y:item.new,
-                        }
-
-                    })
-                    console.log('版本数据2',this.versionData2);
-
-                    this.versionData3 =   originData.map((item) => {
-                        return {
-                            name:item.version,
-                            y:item.count,
-                        }
-
-                    })
-                    console.log('版本数据3',this.versionData3);
+                        })
                     //原始版本数据
 
                 })
@@ -219,13 +206,10 @@ console.log(originData)
             //数据流程走向，获取原始数据，然后根据选项卡，进行过滤，然后灌注在图表上
             return {
                 versionData:[],
-                versionData1:[],
-                versionData2:[],
-                versionData3:[],
                 button1: '新增用户',
-                barTitle:'1',
                 button2: '新增用户',
-
+                barChoose1: '新增用户',
+                barChoose2: '新增用户',
                 options:{
 
 
@@ -378,7 +362,9 @@ console.log(originData)
                         }]
                     }]
                 },
-                barData:[]
+                barData:[],
+                barData2:[]
+
             }
         },
 
@@ -387,35 +373,92 @@ console.log(originData)
         },
         watch: {
             // 如果 `question` 发生改变，这个函数就会运行
-            button1: function (newValue,oldValue) {
+            barChoose1: function (newValue,oldValue) {
                 // console.log(oldValue,newValue)
 
                 switch(newValue)
                 {
 
                     case '新增用户':
-                        this.barData = this.versionData1
+                        this.barData = this.versionData.map(
+                            (item) => {1
+                                return {
+                                    name:item.version,
+                                    y:item.active,
+                                }
+
+                            })
                         break;
                     case '活跃用户':
-                        this.barData = this.versionData2
+                        this.barData = this.versionData.map((item) => {
+                            return {
+                                name:item.version,
+                                y:item.new,
+                            }
+
+                        })
 
                         break;
                     case '累计用户':
 
-                        this.barData = this.versionData3
+                        this.barData = this.versionData.map((item) => {
+                            return {
+                                name:item.version,
+                                y:item.count,
+                            }
+
+                        })
 
                         break;
                     default:
 
                 }
             },
+            barChoose2: function (newValue,oldValue) {
+                // console.log(oldValue,newValue)
+
+                switch(newValue)
+                {
+
+                    case '新增用户':
+                        this.barData2 = this.versionData.map(
+                            (item) => {1
+                                return {
+                                    name:item.channels,
+                                    y:item.new,
+                                }
+
+                            })
+                        break;
+                    case '活跃用户':
+                        this.barData2 = this.versionData.map((item) => {
+                            return {
+                                name:item.channels,
+                                y:item.active,
+                            }
+
+                        })
+
+                        break;
+                    case '累计用户':
+
+                        this.barData2 = this.versionData.map((item) => {
+                            return {
+                                name:item.channels,
+                                y:item.count,
+                            }
+
+                        })
+
+                        break;
+                    default:
+
+                }
+            },
+
         },
         computed: {
-
-            barOption: function () {
-                return this.bar
-            },
-            barOption2: function () {
+            barOption1: function () {
                 return {
                     chart: {
                         plotBackgroundColor: null,
@@ -424,7 +467,7 @@ console.log(originData)
                         type: 'pie'
                     },
                     title: {
-                        text: this.barTitle
+                        text: ''
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -445,6 +488,39 @@ console.log(originData)
                         name: 'Brands',
                         colorByPoint: true,
                         data: this.barData
+                    }]
+                }
+            },
+            barOption2: function () {
+                return {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Brands',
+                        colorByPoint: true,
+                        data: this.barData2
                     }]
                 }
             }
