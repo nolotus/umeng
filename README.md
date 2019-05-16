@@ -1,5 +1,6 @@
 # umeng
-
+模拟数据报表简单演示demo。
+vue+highchart+mock.js
 ## Project setup
 ```
 npm install

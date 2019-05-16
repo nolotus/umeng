@@ -74,18 +74,16 @@
                 </div>
                 <div value="name1">
                     <div>
-                        <RadioGroup v-model="button1" type="button">
+                        <RadioGroup v-model="ChartChoose1" type="button">
                             <Radio label="新增用户"></Radio>
                             <Radio label="活跃用户"></Radio>
+                            <Radio label="启动次数"></Radio>
                             <Radio label="累计用户"></Radio>
-                            <Radio label="活跃用户构成"></Radio>
-                            <Radio label="平均单次使用时长"></Radio>
-                            <Radio label="平均日使用时长"></Radio>
-                            <Radio label="平均下载浏览"></Radio>
+
                         </RadioGroup>
 
                     </div>
-                    <Highcharts :options="options" />
+                    <Highcharts :options="chartOption1" />
 
                 </div>
 
@@ -107,18 +105,18 @@
                 </div>
                 <div>
                     <div>
-                        <RadioGroup v-model="button1" type="button">
-                            <Radio label="新增用户"></Radio>
-                            <Radio label="活跃用户"></Radio>
-                            <Radio label="累计用户"></Radio>
-                            <Radio label="活跃用户构成"></Radio>
-                            <Radio label="平均单次使用时长"></Radio>
-                            <Radio label="平均日使用时长"></Radio>
-                            <Radio label="平均下载浏览"></Radio>
+                        <RadioGroup v-model="ChartChoose2" type="button">
+                            <Radio label="次日留存率"></Radio>
+                            <Radio label="7日留存率"></Radio>
+                            <Radio label="30日留存率"></Radio>
+                            <Radio label="付费用户"></Radio>
+                            <Radio label="付费金额"></Radio>
+                            <Radio label="新增付费用户"></Radio>
+                            <Radio label="付费率"></Radio>
                         </RadioGroup>
 
                     </div>
-                    <Highcharts :options="options" />
+                    <Highcharts :options="chartOption1" />
 
                 </div>
             </Card>
@@ -175,102 +173,32 @@
     import api from '../../axios/api'
 
     export default {
-        mounted () {
-            api.mockdata('/data/index3')
-                .then(res => {
-                    console.log('原始数据',res);
-
-                   this.versionData = res.array[0].array
-                    this.barData = this.versionData.map(
-                        (item) => {1
-                            return {
-                                name:item.version,
-                                y:item.new,
-                            }
-
-                        })
-                    this.barData2 = this.versionData.map(
-                        (item) => {1
-                            return {
-                                name:item.channels,
-                                y:item.new,
-                            }
-
-                        })
-                    //原始版本数据
-
-                })
-        },
         data () {
 
             //数据流程走向，获取原始数据，然后根据选项卡，进行过滤，然后灌注在图表上
             return {
                 versionData:[],
-                button1: '新增用户',
-                button2: '新增用户',
                 barChoose1: '新增用户',
+                barData:[],
                 barChoose2: '新增用户',
-                options:{
+                barData2:[],
 
 
-                    title: {
-                        text: 'Solar Employment Growth by Sector, 2010-2016'
-                    },
 
-                    subtitle: {
-                        text: 'Source: thesolarfoundation.com'
-                    },
+                ChartChoose1: '新增用户',
+                chartO1:[],
+                Chart1Data:[],
+                category1:[1,2,333,444],
 
-                    yAxis: {
-                        title: {
-                            text: 'Number of Employees'
-                        }
-                    },
-                    legend: {
-                        layout: 'horizontal',
-                    },
 
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
-                            pointStart: 2010
-                        }
-                    },
 
-                    series: [{
-                        name: 'Installation',
-                        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                    }, {
-                        name: 'Manufacturing',
-                        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                    }, {
-                        name: 'Sales & Distribution',
-                        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                    }, {
-                        name: 'Project Development',
-                        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                    }, {
-                        name: 'Other',
-                        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                    }],
+                ChartChoose2: '新增用户',
+                chartO2:[],
+                Chart2Data:[],
 
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                legend: {
-                                    layout: 'horizontal',
-                                    align: 'center',
-                                    verticalAlign: 'bottom'
-                                }
-                            }
-                        }]
-                    }
-                },
+
+
+
                 options2: {
                     shortcuts: [
                         {
@@ -301,71 +229,57 @@
                             }
                         }
                     ]
-                },
-                bar:{
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
-                    },
-                    title: {
-                        text: ''
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                }
 
-                            },
-                            showInLegend: true
-                        }
-                    },
-                    series: [{
-                        name: 'Brands',
-                        colorByPoint: true,
-                        data: [{
-                            name: 'Chrome',
-                            y: 61.41,
-                            sliced: true,
-                            selected: true
-                        }, {
-                            name: 'Internet Explorer',
-                            y: 11.84
-                        }, {
-                            name: 'Firefox',
-                            y: 10.85
-                        }, {
-                            name: 'Edge',
-                            y: 4.67
-                        }, {
-                            name: 'Safari',
-                            y: 4.18
-                        }, {
-                            name: 'Sogou Explorer',
-                            y: 1.64
-                        }, {
-                            name: 'Opera',
-                            y: 1.6
-                        }, {
-                            name: 'QQ',
-                            y: 1.2
-                        }, {
-                            name: 'Other',
-                            y: 2.61
-                        }]
-                    }]
-                },
-                barData:[],
-                barData2:[]
 
             }
+        },
+
+        mounted () {
+            api.mockdata('/data/index3')
+                .then(res => {
+                    console.log('原始数据',res);
+
+                   this.versionData = res.array[0].array
+                    this.barData = this.versionData.map(
+                        (item) => {1
+                            return {
+                                name:item.version,
+                                y:item.new,
+                            }
+
+                        })
+                    this.barData2 = this.versionData.map(
+                        (item) => {1
+                            return {
+                                name:item.channels,
+                                y:item.new,
+                            }
+
+                        })
+                    //原始版本数据
+
+                })
+            api.mockdata('/data/allTrend')
+                .then(res => {
+                    console.log('整体趋势数据',res);
+                  this.chartO1 =res.array
+                    let data = []
+                    this.chartO1.map(
+       (item) => {
+           data.push(item.new)
+
+
+       })
+                    this.Chart1Data = [{
+                        name :'新增用户',
+                        data:data
+                    }]
+                    console.log('数据构造',this.Chart1Data)
+
+                    //原始版本数据
+
+                })
         },
 
         methods: {
@@ -455,6 +369,208 @@
 
                 }
             },
+            ChartChoose1:function (newValue,oldValue) {
+
+
+                let obj = {
+                    '新增用户' : () => {
+                        let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.new)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'新增用户',
+                            data:data
+                        }]
+                    },
+                    '活跃用户' : () => {     let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.active)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'活跃用户',
+                            data:data
+                        }]},
+                    '累计用户' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.active)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'累计用户',
+                            data:data
+                        }]},
+                    '活跃用户构成' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.count)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'活跃用户构成',
+                            data:data
+                        }]},
+                    '平均单次使用时长' : () => { let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageOnce)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均单次使用时长',
+                            data:data
+                        }] },
+                    '平均日使用时长' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageDay)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均日使用时长',
+                            data:data
+                        }] },
+                    '启动次数' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageDayStart)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均日启动次数',
+                            data:data
+                        }] },
+                    '平均日启动次数' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageDayStart)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均日启动次数',
+                            data:data
+                        }] },
+
+                }
+
+                obj[newValue]()
+
+
+            },
+            ChartChoose2:function (newValue,oldValue) {
+
+
+                let obj = {
+                    '新增用户' : () => {
+                        let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.new)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'新增用户',
+                            data:data
+                        }]
+                    },
+                    '活跃用户' : () => {     let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.active)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'活跃用户',
+                            data:data
+                        }]},
+                    '累计用户' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.active)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'累计用户',
+                            data:data
+                        }]},
+                    '活跃用户构成' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.count)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'活跃用户构成',
+                            data:data
+                        }]},
+                    '平均单次使用时长' : () => { let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageOnce)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均单次使用时长',
+                            data:data
+                        }] },
+                    '平均日使用时长' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageDay)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均日使用时长',
+                            data:data
+                        }] },
+                    '启动次数' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageDayStart)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均日启动次数',
+                            data:data
+                        }] },
+                    '平均日启动次数' : () => {  let data = []
+                        this.chartO1.map(
+                            (item) => {
+                                data.push(item.averageDayStart)
+
+
+                            })
+                        this.Chart1Data = [{
+                            name :'平均日启动次数',
+                            data:data
+                        }] },
+
+                }
+
+                obj[newValue]()
+
+
+            }
 
         },
         computed: {
@@ -522,6 +638,50 @@
                         colorByPoint: true,
                         data: this.barData2
                     }]
+                }
+            },
+            chartOption1:function () {
+                return {
+
+
+                    title: {
+                        text: ''
+                    },
+
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: {
+                        categories: this.category1
+                    },
+
+                    yAxis: {
+                        title: {
+                            text: ''
+                        }
+                    },
+                    legend: {
+                        layout: 'horizontal',
+                    },
+
+
+
+                    series:this.Chart1Data,
+
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
                 }
             }
         },
