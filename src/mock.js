@@ -8,7 +8,7 @@ let data2 = [1,2,3] // 用于接受生成数据的数组
 let data3 = Mock.mock(
     {'array|7':[{
         'array|1-5':[{
-            "version|1.1.1": 1,
+            "version|1.1": 1,
             "count|+200": 50,
             "new|1-10": 50,
             "upgrade|1-50": 50,

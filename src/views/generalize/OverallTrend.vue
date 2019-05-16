@@ -179,14 +179,37 @@
             api.mockdata('/data/index3')
                 .then(res => {
                     console.log('原始数据',res);
-                    res.array.map((item) => {
-                        console.log(item)
+
+                    let originData = res.array[0].array
+console.log(originData)
+                    this.versionData1 =   originData.map(
+                        (item) => {
+                        return {
+                            name:item.version,
+                            y:item.active,
+                        }
 
                     })
+                    this.barData =this.versionData1
+                    console.log('版本数据1',this.versionData1);
 
-                    this.versionData = res
+                    this.versionData2 =   originData.map((item) => {
+                        return {
+                            name:item.version,
+                            y:item.new,
+                        }
 
-                    console.log(this.versionData)
+                    })
+                    console.log('版本数据2',this.versionData2);
+
+                    this.versionData3 =   originData.map((item) => {
+                        return {
+                            name:item.version,
+                            y:item.count,
+                        }
+
+                    })
+                    console.log('版本数据3',this.versionData3);
                     //原始版本数据
 
                 })
@@ -196,6 +219,9 @@
             //数据流程走向，获取原始数据，然后根据选项卡，进行过滤，然后灌注在图表上
             return {
                 versionData:[],
+                versionData1:[],
+                versionData2:[],
+                versionData3:[],
                 button1: '新增用户',
                 barTitle:'1',
                 button2: '新增用户',
@@ -352,36 +378,7 @@
                         }]
                     }]
                 },
-                barData:[{
-                    name: 'Chrome',
-                    y: 61.41,
-                    sliced: true,
-                    selected: true
-                }, {
-                    name: 'Internet Explorer',
-                    y: 11.84
-                }, {
-                    name: 'Firefox',
-                    y: 10.85
-                }, {
-                    name: 'Edge',
-                    y: 4.67
-                }, {
-                    name: 'Safari',
-                    y: 4.18
-                }, {
-                    name: 'Sogou Explorer',
-                    y: 1.64
-                }, {
-                    name: 'Opera',
-                    y: 1.6
-                }, {
-                    name: 'QQ',
-                    y: 1.2
-                }, {
-                    name: 'Other',
-                    y: 2.61
-                }]
+                barData:[]
             }
         },
 
@@ -391,77 +388,22 @@
         watch: {
             // 如果 `question` 发生改变，这个函数就会运行
             button1: function (newValue,oldValue) {
-                console.log(oldValue,newValue)
+                // console.log(oldValue,newValue)
 
                 switch(newValue)
                 {
 
                     case '新增用户':
-                        this.barData = [{
-                            name: 'Chz',
-                            y: 6111.41,
-                        }, {
-                            name: 'Internet Explorer',
-                            y: 11.84
-                        }, {
-                            name: 'Firefox',
-                            y: 10.85
-                        }, {
-                            name: 'Edge',
-                            y: 4.67
-                        }, {
-                            name: 'Safari',
-                            y: 4.18
-                        }, {
-                            name: 'Sogou Explorer',
-                            y: 1.64
-                        }, {
-                            name: 'Opera',
-                            y: 1.6
-                        }, {
-                            name: 'QQ',
-                            y: 1.2
-                        }, {
-                            name: 'Other',
-                            y: 2.61
-                        }]
+                        this.barData = this.versionData1
                         break;
                     case '活跃用户':
-                        this.barData = [{
-                            name: 'Ch',
-                            y: 6111.41,
-                        }, {
-                            name: 'Internet Explorer',
-                            y: 11.84
-                        }, {
-                            name: 'Firefox',
-                            y: 10.85
-                        }, {
-                            name: 'Edge',
-                            y: 4.67
-                        }, {
-                            name: 'Safari',
-                            y: 4.18
-                        }, {
-                            name: 'Sogou Explorer',
-                            y: 1.64
-                        }, {
-                            name: 'Opera',
-                            y: 1.6
-                        }, {
-                            name: 'QQ',
-                            y: 1.2
-                        }, {
-                            name: 'Other',
-                            y: 2.61
-                        }]
+                        this.barData = this.versionData2
+
                         break;
                     case '累计用户':
 
-                        this.barData = this.versionData.map((item) => {
-                         console.log(item)
+                        this.barData = this.versionData3
 
-                        })
                         break;
                     default:
 
