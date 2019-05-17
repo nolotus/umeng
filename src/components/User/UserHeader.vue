@@ -38,7 +38,7 @@
           </p>
           
           <DatePicker :value="form.daterange" format="yyyy-MM-dd" type="daterange" style="margin-right:10px;"  v-if="showWidget.datePicker"></DatePicker>
-          <DatePicker :value="form.date" format="yyyy-MM-dd" type="date"  style="margin-right:10px;" v-if="showWidget.date"></DatePicker>
+          <DatePicker :value="form.date" format="yyyy-MM-dd" type="date"  style="margin-right:10px;" v-if="showWidget.date" @on-change="dateChange"></DatePicker>
           <Select v-model="form.channel" style="width:200px;margin-right:10px;" v-if="showWidget.selectChannel">
               <Option value="0">全部渠道</Option>  
               <Option v-for="item in channelList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -67,8 +67,8 @@ export default {
     return{
       
       form:{
-        daterange:['2019-05-06', '2019-05-13'],
-        date: '2019-05-14',
+        daterange:['2019-05-01', '2019-05-07'],
+        date: '2019-05-01',
         channel:"0",
         version:"0",
       },
@@ -89,6 +89,9 @@ export default {
   mounted(){
   },
   methods:{
+    dateChange(val){
+        this.$emit("dateChange",val)
+    },
     getFormData(){
         return this.form;
     }

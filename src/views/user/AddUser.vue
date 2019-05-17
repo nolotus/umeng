@@ -26,7 +26,7 @@
      <User-header ref="UserHeader" :currenPage="currenPageTitle" :showWidget="showWidget"/>
      <div class="content">
         <Chart-search-bar :currenPageType="currenPageType"></Chart-search-bar>
-        <User-chart style="height:400px;"></User-chart>
+        <User-chart style="height:400px;" :options="options"></User-chart>
         <Comparison></Comparison>
         <div class="milestone_btn" @click="isAddMilestone = !isAddMilestone" v-show="!isAddMilestone">
           <Icon type="ios-arrow-down"/>
@@ -37,13 +37,13 @@
         @addupIsAddMilestone="isAddMilestone = !isAddMilestone" 
         v-if="isAddMilestone">
       </Milestone>
-      <User-table :columns="tableParams[currenPageType].column" :data="tableParams[currenPageType].data"></User-table>
+      <User-table :columns="tableParams[currenPageType].column" :data="currenPageType == 'version'?versionData:userData"></User-table>
       <template v-if="currenPageType === 'add'">
         <div class="content">
             <Chart-search-bar :currenPageType="currenPageType"></Chart-search-bar>
-            <User-chart style="height:400px;"></User-chart>
+            <User-chart style="height:400px;"  :options="options"></User-chart>
         </div>
-        <User-table :columns="tableParams[currenPageType].column" :data="tableParams[currenPageType].data"></User-table>
+        <User-table :columns="morrowColumn" :data="userData"></User-table>
       </template>
   </div>
 </template>
@@ -54,6 +54,7 @@ import UserChart from "../../components/User/UserChart.vue";
 import Comparison from "../../components/User/Comparison.vue";//对比
 import Milestone from "../../components/User/Milestone.vue";//里程碑
 import UserTable from "../../components/User/UserTable.vue";//表格
+import axios from "axios";
 export default {
   components:{
     UserHeader,
@@ -67,15 +68,106 @@ export default {
   props: {},
   data(){
     return{
-       currenPageTitle:"用户分析",
-       isAddMilestone:false,
-       currenPageType:"add",
-       showWidget:{ 
-          date:false,
-          datePicker:false,
-          selectChannel:false,
-          selectVersion:false,
-       },
+      options:{
+          title: {
+            text: ""
+          },
+          subtitle: {
+            text: ""
+          },
+          yAxis: {
+            min: 0,
+            gridLineDashStyle: "Dot",
+            title: {
+              text: ""
+            },
+            labels: {
+              formatter: function() {
+                return (this.value || 0)
+                  .toString()
+                  .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+              }
+            }
+          },
+          legend: {
+            // enabled: false //不显示图例
+            // layout: 'vertical',
+            // align: 'right',
+            // verticalAlign: 'middle'
+          },
+          xAxis: {
+            categories: [
+              "2019-05-08",
+              "2019-05-09",
+              "2019-05-10",
+              "2019-05-11",
+              "2019-05-12",
+              "2019-05-13",
+              "2019-05-14"
+            ]
+          },
+          plotOptions: {
+            series: {
+              lineWidth: 1.5, //折线宽度
+              //  enableMouseTracking: false,
+              marker: {
+                // enabled: false
+                symbol: "circle"
+              }
+            }
+          },
+          credits: {
+            enabled: false //去掉水印
+          },
+          tooltip: {
+            shared:true,
+            crosshairs: {
+              width: 1,
+              color: "#ccc"
+            }
+          },
+          series: [
+            {
+              name: "新增用户",
+              color: "#2196F3", //颜色
+              // lineWidth: 2,//折线宽度
+              data: [113, 108, 79, 87, 41, 99, 95] //数据
+            }
+          ],
+          responsive: {
+            rules: [
+              {
+                condition: {
+                  maxWidth: 500
+                },
+                chartOptions: {
+                  legend: {
+                    layout: "horizontal",
+                    align: "center",
+                    verticalAlign: "bottom"
+                  }
+                }
+              }
+            ]
+          }
+        },
+
+        currenPageTitle:"用户分析",
+        isAddMilestone:false,
+        currenPageType:"add",
+        showWidget:{ 
+            date:false,
+            datePicker:false,
+            selectChannel:false,
+            selectVersion:false,
+        },
+        userData:[],
+        versionData:[],
+        morrowColumn:[
+            { title: "日期", key: "date" },
+            { title: "次日留存率", key: "morrow" ,align: "right",},
+
+        ],
        tableParams:{
         "add":{
           column:[
@@ -86,19 +178,12 @@ export default {
                     render: (h, params) => {
                       return h(
                         "div",
-                        params.row.addcount + "（" + params.row.proportion + "）"
+                        params.row.addcount + "（" + params.row.addProportion + "）"
                       );
                     }
                   }
           ],
           data:[
-              { date: "2019-05-14", addcount: 48, proportion: "2.94%" },
-              { date: "2019-05-15", addcount: 99, proportion: "3.94%" },
-              { date: "2019-05-16", addcount: 41, proportion: "4.94%" },
-              { date: "2019-05-17", addcount: 87, proportion: "5.94%" },
-              { date: "2019-05-18", addcount: 79, proportion: "6.94%" },
-              { date: "2019-05-19", addcount: 108, proportion: "7.94%" },
-              { date: "2019-05-20", addcount: 113, proportion: "8.94%" }
           ]
         },
         "active":{
@@ -110,34 +195,20 @@ export default {
               { title: "DAU/过去30日活跃用户", key: "dau30" },
           ],
           data:[
-              { date: "2019-05-14", activeNumber: 1148, constitute: "13.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"},
-              { date: "2019-05-15", activeNumber: 919,  constitute: "12.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"},
-              { date: "2019-05-16", activeNumber: 411,  constitute: "14.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"},
-              { date: "2019-05-17", activeNumber: 817,  constitute: "15.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"},
-              { date: "2019-05-18", activeNumber: 719,  constitute: "16.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"},
-              { date: "2019-05-19", activeNumber: 608,  constitute: "17.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"},
-              { date: "2019-05-20", activeNumber: 513,  constitute: "18.94%" ,constitute:"44.56%",dau7:"55.56%",dau30:"28.88%"}
           ]
         },
         "startcount":{
           column:[
               { title: "日期", key: "date" },
               { title: "启动次数", key: "startCount" }, 
-              { title: "启动次数占比", key: "proportion" }, 
+              { title: "启动次数占比", key: "startProportion" }, 
           ],
           data:[
-              { date: "2019-05-14", startCount: 118,proportion:"13.33%"},
-              { date: "2019-05-15", startCount: 91, proportion:"13.33%"},
-              { date: "2019-05-16", startCount: 41, proportion:"13.33%"},
-              { date: "2019-05-17", startCount: 81, proportion:"13.33%"},
-              { date: "2019-05-18", startCount: 71, proportion:"13.33%"},
-              { date: "2019-05-19", startCount: 60, proportion:"13.33%"},
-              { date: "2019-05-20", startCount: 51, proportion:"13.33%"},
           ]
         },
         "version":{
           column:[
-              { title: "版本", key: "versin" },
+              { title: "版本", key: "version" },
               { title: "截至今日版本累计用户(%)", key: "accumulated" },
               { title: "新增用户", key: "addUser" },
               { title: "活跃用户(%)", key: "activeUser" },
@@ -145,13 +216,6 @@ export default {
               { title: "升级用户", key: "upgradeUser" },
           ],
           data:[
-             {versin:"2.0.1",accumulated:1569,addUser:125,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
-             {versin:"1.15.5",accumulated:1569,addUser:0,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
-             {versin:"2.0.0",accumulated:1569,addUser:10,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
-             {versin:"1.0",accumulated:1569,addUser:20,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
-             {versin:"1.14.0",accumulated:1569,addUser:30,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
-             {versin:"1.10.0",accumulated:1569,addUser:0,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
-             {versin:"5.0.0",accumulated:1569,addUser:0,activeUser:"1173（70.03%）",startCount:6489,upgradeUser:3},
           ]
         },
        },
@@ -162,11 +226,68 @@ export default {
   },
   created(){
         this.setCurrenPageTitle(this.$route.params.type);
+        this.getUserData();
   },
   mounted(){
 
   },
   methods:{
+    // 设置图表数据
+    setOptions(){
+      let xList = [], sList = [],ob={};
+        if(this.currenPageType == "add"){
+           xList = this.userData.map(item =>  item.date)
+           sList.push({
+              name:"新增用户",
+              color: "#2196F3",
+              data:this.userData.map(item => item.addcount)
+           })
+        }else if(this.currenPageType == "active"){
+             xList = this.userData.map(item =>  item.date)
+             sList.push({
+              name:"活跃用户",
+              color: "#2196F3",
+              data:this.userData.map(item => item.activeNumber)
+            })
+        }else if(this.currenPageType == "startcount"){
+             xList = this.userData.map(item =>  item.date)
+             sList.push({
+                name:"启动次数",
+                color: "#2196F3",
+                data:this.userData.map(item => item.startCount)
+            })
+        }
+        else if(this.currenPageType == "version"){
+          xList = this.versionData[0].list.map(item => item.date);
+          this.versionData.forEach((item,index) => {
+               sList.push({
+                name:item.version,
+                color:item.color,
+                data:item.list.map( item2 => item2.addUser)
+              })   
+          })
+        }
+        this.options.xAxis.categories = xList;
+        this.options.series = sList;
+        console.log(this.options.series)
+
+    },
+    getUserData(callback){
+        axios.all([
+            axios.get("/data/getuserdata"),
+            axios.get("/data/getversiondata")
+        ])
+        .then(axios.spread( (user,version) => {
+               this.userData = user.data.data;
+               this.versionData = version.data.data;
+               console.log(user,version)
+               this.setOptions();
+        }))
+        .catch(err => {
+          
+        })
+       
+    },
     setCurrenPageTitle(val){
       this.currenPageType = val;
       for(let key in this.showWidget){
@@ -200,6 +321,7 @@ export default {
     },
     routeChange(cur){
          this.setCurrenPageTitle(cur.params.type);
+         this.setOptions();
     },
 
   }

@@ -115,5 +115,60 @@ Mock.mock('/data/allTrend', 'post', allTrend)
 Mock.mock('/data/detailTrend', 'post', detailTrend)
 
 
+//模拟用户数据 
+Mock.mock('/data/getuserdata', 'get', Mock.mock({
+    "data|7": [
+        {
+            "appStore":"appStore",
+            'day|+1':1,
+            'date':function(){
+                var date = "2019-05-" + (this.day>10?this.day:"0"+this.day);
+                    return date;
+             },
+             'addcount|40-120':1,                     //新增人数
+             "addProportion" :"@float(1, 20, 0, 2)%" ,    //新增用户（占比）
+            "morrow" : "@float(0, 30, 0, 2)%",       //次日留存率
+            'activeNumber|1400-3000':1,              //活跃人数
+            "constitute" : "@float(0, 10, 0, 2)%",    //活跃构成(新用户占比)
+            "dau7" :"@float(0, 50, 0, 2)%", //DAU/过去7日活跃用户
+            "dau30" :"@float(0, 30, 0, 2)%", //DAU/过去30日活跃用户
+            "startCount":"@integer(10000, 21000)", //启动次数
+            "startProportion":"@float(5, 15, 0, 2)%", //启动占比
+            "channel|24":[
+                {
+                    "time|+1":["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00"
+                    ,"11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
+                    "appStore":"@integer(0, 50)"
+                }
+            ]
+        }
+    ]
+}))
 
+//模拟版本分布时段数据
+Mock.mock('/data/getversiondata','get', Mock.mock({
+    "data|7":[
+        {
+            "version|+1":["2.0.1","1.15.5","2.0.0","1.0","1.14.0","1.10.0","5.0.0"],//版本号
+            "accumulated":"@integer(0, 3000)（@float(0, 90, 0, 2)%）",//截至今日版本累计用户(%)
+            "addUser":"@integer(0, 1000)", //新增用户
+            "activeUser":"@integer(0, 1200)（@float(0, 90, 0, 2)%）",//活跃用户(%)
+            "startCount":"@integer(0, 7000)", //启动次数
+            "upgradeUser":"@integer(0, 1000)",//升级用户
+            "color":"@hex()",
+            "list|7":[
+                {
+                    "addUser":"@integer(0, 150)", //新增用户
+                    'activeNumber|1400-3000':1,              //活跃人数
+                    "startCount":"@integer(0, 7000)", //启动次数
+                    'dayid|+1':1,
+                    'date':function(){
+                        var date = "2019-05-" + (this.dayid>10?this.dayid:"0"+this.dayid);
+                            return date;
+                    }
+                }
+            ]
+        }
+    ]
+}))
 
