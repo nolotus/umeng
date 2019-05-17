@@ -8,7 +8,7 @@
 
                 </p>
                 <div>
-                    <div class="tabs">
+                    <div class="tabs" style="border-bottom: 1px solid #eee;">
                         <div class="tab-item">
                             <div class="up">累计用户</div>
                             <div class="down">2009570</div>
@@ -75,15 +75,27 @@
                 <div value="name1">
                     <div>
                         <RadioGroup v-model="ChartChoose1" type="button">
-                            <Radio label="新增用户"></Radio>
-                            <Radio label="活跃用户"></Radio>
-                            <Radio label="启动次数"></Radio>
-                            <Radio label="累计用户"></Radio>
-
+                            <Radio  v-for="(todo, index) in ChartChoose1Array" :label="todo"></Radio>
                         </RadioGroup>
+
+                        <Button style="margin-left: 20px" type="primary" @click="modal1 = true">编辑指标</Button>
+                        <Modal
+                                v-model="modal1"
+                                title="编辑指标">
+                            <CheckboxGroup v-model="ChartChoose1Array">
+                                <Checkbox v-for="(todo, index) in Chart1Array" :label="todo">
+                                    <span>{{todo}}</span>
+                                </Checkbox>
+
+                            </CheckboxGroup>
+                        </Modal>
+
 
                     </div>
                     <Highcharts :options="chartOption1" />
+
+                    <User-table :columns="Table1Clo" :data="Table1Data"></User-table>
+
 
                 </div>
 
@@ -171,8 +183,13 @@
 
 <script>
     import api from '../../axios/api'
+    import UserTable from "../../components/User/UserTable.vue";//表格
 
     export default {
+        components:{
+
+            UserTable
+        },
         data () {
 
             //数据流程走向，获取原始数据，然后根据选项卡，进行过滤，然后灌注在图表上
@@ -184,11 +201,19 @@
                 barData2:[],
 
 
-
+                modal1: false,
                 ChartChoose1: '新增用户',
+                //生成选项卡数组
+                ChartChoose1Array:['新增用户'],
                 chartO1:[],
                 Chart1Data:[],
+                //表格的当前数据
+                Table1Data:[{},{},{}],
                 category1:[1,2,333,444],
+                //原始多选数组，用于准备选项卡的选择
+                Chart1Array:[
+                    '新增用户','活跃用户','启动次数','累计用户','错  误数',
+                '错误率','活跃用户构成','平均单词使用时长','平均日使用时长','平均日启动次数','Android平均上传流量','Android平均下载流量'],
 
 
 
@@ -574,6 +599,16 @@
 
         },
         computed: {
+
+            Table1Clo:function(){
+                let Temp =[]
+               this.ChartChoose1Array.map((item)=>{
+                 let  TempObject = {title:item,key:'a'}
+                  Temp.push(TempObject)
+
+              })
+                return Temp
+            },
             barOption1: function () {
                 return {
                     chart: {
@@ -700,8 +735,14 @@
         justify-content: space-evenly;
     }
     .tab-item{
+        border-right:1px solid #eee;
         min-width: 150px;
         width: 20%;
+        padding: 16px   ;
+    }
+    .tab-item:last-child{
+        border-right:none;
+
     }
     .tab-item .up{
         margin-top: 15px;
